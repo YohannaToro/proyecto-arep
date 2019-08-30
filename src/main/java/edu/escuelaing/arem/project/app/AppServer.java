@@ -8,8 +8,17 @@ import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.logging.Handler;
+
+import edu.escuelaing.arem.project.app.model.Handlers;
+import edu.escuelaing.arem.project.app.model.UrlHandler;
 
 public class AppServer {
+
+    private static HashMap<String,Handlers> hm= new HashMap<String,Handlers>();
+
+
     public static void escuchar() throws IOException {
         ServerSocket serverSocket = null;
         try {
@@ -43,12 +52,21 @@ public class AppServer {
 
     }
 
-    public static void initicializar() {
+    public static void inicializar() {
+        bind("edu.escuelaing.arem.project.app.Browser");
+        System.out.println(hm.get("Browser"));
+    }
+
+    public static void bind(String classpath){
         try {
-            Class c = Class.forName("edu.escuelaing.arem.project.app.Browser");
-            Method m = c.getDeclaredMethod("prueba", null);
-            System.out.format("invoking %s.m()%n", c.getName());
-            m.invoke(null, null);
+            Class c = Class.forName(classpath);
+            for(Method m: c.getMethods()){
+                if(m.isAnnotationPresent(Web.class)){
+                    Handlers h= new UrlHandler(m);
+                    System.out.println("hhhh");
+                    hm.put(m.getAnnotation(Web.class).value(), new UrlHandler(m));
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,8 +13,10 @@ import java.net.URL;
  * @author 2132219
  */
 public class Browser {
+
+    @Web("Browser")
     public static String prueba() {
-        return "";
+        return "hola amiwis coronamos";
 
     }
 }
