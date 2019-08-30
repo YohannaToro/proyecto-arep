@@ -13,7 +13,7 @@ public class AppServer {
     public static void escuchar() throws IOException {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(35000);
+            serverSocket = new ServerSocket(35001);
         } catch (IOException e) {
             System.err.println("Could not listen on port: 35000.");
             System.exit(1);
@@ -46,9 +46,9 @@ public class AppServer {
     public static void initicializar() {
         try {
             Class c = Class.forName("edu.escuelaing.arem.project.app.Browser");
-            Method main = c.getDeclaredMethod("prueba", null);
-            System.out.format("invoking %s.prueba()%n", c.getName());
-            main.invoke(null, null);
+            Method m = c.getDeclaredMethod("prueba", null);
+            System.out.format("invoking %s.m()%n", c.getName());
+            m.invoke(null, null);
 
         } catch (Exception e) {
             e.printStackTrace();
