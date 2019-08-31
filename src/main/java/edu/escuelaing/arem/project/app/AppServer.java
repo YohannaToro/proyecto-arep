@@ -111,14 +111,12 @@ public class AppServer {
     public static void inicializar() {
         try {
 
-            // traemos el classpath cuando escuchamos
             String p = "edu.escuelaing.arem.project.app.";
             bind(p + "test");
-            // bind(p+labinfo.getPath());
+
 
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handle exception
         }
 
     }
@@ -127,9 +125,6 @@ public class AppServer {
         try {
 
             Class c = Class.forName(classpath);
-            // if(classpath.contains("/apps")){
-
-            // }
 
             for (Method m : c.getMethods()) {
 
