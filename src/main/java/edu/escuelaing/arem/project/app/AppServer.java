@@ -22,7 +22,8 @@ public class AppServer {
     public static void escuchar() throws IOException {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(5000);
+            serverSocket = new ServerSocket(getPort();
+            System.out.println(getPort());
         } catch (IOException e) {
             System.err.println("Could not listen on port: 35000.");
             System.exit(1);
@@ -45,6 +46,7 @@ public class AppServer {
                 int index = inputLine.indexOf("/apps/");
                 String resource = "", urlInputLine ="";
                 int i = -1;
+                String headr="HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n \r\n";
                 if (index != -1){
                     for (i = index; i < inputLine.length() && inputLine.charAt(i) != ' '; i++) {
                         resource += inputLine.charAt(i);
@@ -54,9 +56,9 @@ public class AppServer {
                 }
                 if (inputLine.contains("/apps/")) {
                     try {
-                        out.println("HTTP/2.0 200 OK");
-                        out.println("Content-Type: text/html");
-                        out.println("\r\n");
+                        
+                        out.println(headr);
+                        
                         System.err.println("What " + resource);
                         out.println(hm.get(resource).process());
                     } catch (Exception e) {
@@ -74,9 +76,7 @@ public class AppServer {
 
                         BufferedReader readerFile = new BufferedReader(
                                 new InputStreamReader(new FileInputStream(urlDirectoryServer), "UTF8"));
-                        out.println("HTTP/2.0 200 OK");
-                        out.println("Content-Type: text/html");
-                        out.println("\r\n");
+                        out.println(headr);
                         while (readerFile.ready()) {
                             out.println(readerFile.readLine());
                         }
@@ -91,9 +91,8 @@ public class AppServer {
                     }
                     BufferedImage github = ImageIO
                             .read(new File(System.getProperty("user.dir") + "\\recursos\\" + urlInputLine));
-                    out.println("HTTP/2.0 200 OK");
-                    out.write("Content-Type: image/webp,*/*");
-                    out.println("\r\n");
+                    out.println(headr);
+                   
                     ImageIO.write(github, "jpg", clientSocket.getOutputStream());
                 }
                 if (!in.ready()) {
