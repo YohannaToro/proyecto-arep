@@ -8,7 +8,7 @@ import java.io.IOException;
  */
 public class Controlador {
     
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args) throws Exception
     {
         AppServer.inicializar();
         AppServer.escuchar();

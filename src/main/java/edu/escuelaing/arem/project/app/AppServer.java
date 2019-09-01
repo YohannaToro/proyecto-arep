@@ -140,7 +140,7 @@ public class AppServer {
         }
 
     }
-    static int getPort() {
+    public static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
         }
