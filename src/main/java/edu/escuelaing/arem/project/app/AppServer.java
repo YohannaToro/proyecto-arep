@@ -22,7 +22,7 @@ public class AppServer {
     public static void escuchar() throws IOException {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(getPort();
+            serverSocket = new ServerSocket(getPort());
             System.out.println(getPort());
         } catch (IOException e) {
             System.err.println("Could not listen on port: 35000.");
