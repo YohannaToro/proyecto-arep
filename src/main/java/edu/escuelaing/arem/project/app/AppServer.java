@@ -20,16 +20,17 @@ public class AppServer {
     private static HashMap<String, Handlers> hm = new HashMap<String, Handlers>();
 
     public static void escuchar() throws IOException {
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(getPort());
-            System.out.println(getPort());
-        } catch (IOException e) {
-            System.err.println("Could not listen on port: 35000.");
-            System.exit(1);
-        }
+      
+ 
         while (true) {
-            Socket clientSocket = null;
+            ServerSocket serverSocket = null;
+	  try {
+	   serverSocket = new ServerSocket(getPort());
+	  } catch (IOException e) {
+	   System.err.println("Could not listen on port: 35000.");
+	   System.exit(1);
+	  }
+	 Socket clientSocket = null;
             try {
                 System.out.println("Listo para recibir ...");
                 clientSocket = serverSocket.accept();
