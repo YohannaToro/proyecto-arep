@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.net.*;
 
-
 import javax.print.DocFlavor.STRING;
 
 import edu.escuelaing.arem.project.app.model.Handlers;
@@ -20,17 +19,17 @@ public class AppServer {
     private static HashMap<String, Handlers> hm = new HashMap<String, Handlers>();
 
     public static void escuchar() throws IOException {
-      
- 
+        ServerSocket serverSocket = null;
+        Socket clientSocket = null;
         while (true) {
-            ServerSocket serverSocket = null;
-	  try {
-	   serverSocket = new ServerSocket(getPort());
-	  } catch (IOException e) {
-	   System.err.println("Could not listen on port: 35000.");
-	   System.exit(1);
-	  }
-	 Socket clientSocket = null;
+            serverSocket = null;
+            try {
+                serverSocket = new ServerSocket(getPort());
+            } catch (IOException e) {
+                System.err.println("Could not listen on port: 35000.");
+                System.exit(1);
+            }
+            clientSocket = null;
             try {
                 System.out.println("Listo para recibir ...");
                 clientSocket = serverSocket.accept();
@@ -45,16 +44,16 @@ public class AppServer {
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Received: " + inputLine);
                 int index = inputLine.indexOf("/apps/");
-                String resource = "", urlInputLine ="";
+                String resource = "", urlInputLine = "";
                 int i = -1;
 
-                String headr="HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n \r\n";
+                String headr = "HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n"+"\r\n";
 
-                if (index != -1){
+                if (index != -1) {
                     for (i = index; i < inputLine.length() && inputLine.charAt(i) != ' '; i++) {
                         resource += inputLine.charAt(i);
                     }
-                }else{
+                } else {
                     i = inputLine.indexOf('/') + 1;
                 }
                 if (inputLine.contains("/apps/")) {
@@ -65,7 +64,7 @@ public class AppServer {
                     } catch (Exception e) {
                     }
                 } else if (inputLine.contains("html")) {
-                    //   int i = inputLine.indexOf('/') + 1;
+                    // int i = inputLine.indexOf('/') + 1;
 
                     while (!urlInputLine.endsWith(".html") && i < inputLine.length()) {
                         urlInputLine += (inputLine.charAt(i++));
@@ -93,7 +92,7 @@ public class AppServer {
                     BufferedImage github = ImageIO
                             .read(new File(System.getProperty("user.dir") + "/recursos/" + urlInputLine));
                     out.println(headr);
-                   
+
                     ImageIO.write(github, "jpg", clientSocket.getOutputStream());
                 }
                 if (!in.ready()) {
@@ -102,7 +101,7 @@ public class AppServer {
 
             }
             out.close();
-            //in.close();
+            // in.close();
             clientSocket.close();
             serverSocket.close();
         }
@@ -114,7 +113,6 @@ public class AppServer {
 
             String p = "edu.escuelaing.arem.project.app.";
             bind(p + "test");
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -142,10 +140,11 @@ public class AppServer {
         }
 
     }
+
     public static int getPort() {
         if (System.getenv("PORT") != null) {
             return Integer.parseInt(System.getenv("PORT"));
         }
-        return 4567; //returns default port if heroku-port isn't set (i.e. on localhost)
+        return 4567; // returns default port if heroku-port isn't set (i.e. on localhost)
     }
 }
