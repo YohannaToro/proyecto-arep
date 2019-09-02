@@ -102,7 +102,7 @@ public class AppServer {
 
             }
             out.close();
-            in.close();
+            //in.close();
             clientSocket.close();
         }
 
