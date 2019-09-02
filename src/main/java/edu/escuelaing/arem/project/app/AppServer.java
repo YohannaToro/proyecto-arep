@@ -47,7 +47,9 @@ public class AppServer {
                 int index = inputLine.indexOf("/apps/");
                 String resource = "", urlInputLine ="";
                 int i = -1;
+
                 String headr="HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n \r\n";
+
                 if (index != -1){
                     for (i = index; i < inputLine.length() && inputLine.charAt(i) != ' '; i++) {
                         resource += inputLine.charAt(i);
@@ -57,9 +59,7 @@ public class AppServer {
                 }
                 if (inputLine.contains("/apps/")) {
                     try {
-                        
                         out.println(headr);
-                        
                         System.err.println("What " + resource);
                         out.println(hm.get(resource).process());
                     } catch (Exception e) {
@@ -71,7 +71,7 @@ public class AppServer {
                         urlInputLine += (inputLine.charAt(i++));
                     }
                     System.err.println("Hola amigos " + urlInputLine);
-                    String urlDirectoryServer = System.getProperty("user.dir") + "\\recursos\\" + urlInputLine;
+                    String urlDirectoryServer = System.getProperty("user.dir") + "/recursos/" + urlInputLine;
                     System.out.println(urlDirectoryServer);
                     try {
 
@@ -91,7 +91,7 @@ public class AppServer {
                         urlInputLine += (inputLine.charAt(i++));
                     }
                     BufferedImage github = ImageIO
-                            .read(new File(System.getProperty("user.dir") + "\\recursos\\" + urlInputLine));
+                            .read(new File(System.getProperty("user.dir") + "/recursos/" + urlInputLine));
                     out.println(headr);
                    
                     ImageIO.write(github, "jpg", clientSocket.getOutputStream());
@@ -104,6 +104,7 @@ public class AppServer {
             out.close();
             //in.close();
             clientSocket.close();
+            serverSocket.close();
         }
 
     }
