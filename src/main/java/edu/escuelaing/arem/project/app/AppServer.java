@@ -43,6 +43,7 @@ public class AppServer {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println("Received: " + inputLine);
+                if(!inputLine.contains("GET")) continue;
                 int index = inputLine.indexOf("/apps/");
                 String resource = "", urlInputLine = "";
                 int i = -1;
@@ -58,8 +59,9 @@ public class AppServer {
                 }
                 if (inputLine.contains("/apps/")) {
                     try {
-                        out.println(headr);
-                        System.err.println("What " + resource);
+                        out.println("HTTP/1.1 200 OK\r");
+                        out.println("Content-Type: text/html\r");
+                        out.println("\r\n");
                         out.println(hm.get(resource).process());
                     } catch (Exception e) {
                     }
